@@ -2,8 +2,10 @@ package com.albertoandraul.arfit.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
-@Table(name = "trainingset")
+@Table(name = "training_set")
 public class TrainingSet {
 
     @Id
@@ -13,12 +15,12 @@ public class TrainingSet {
     private Long sessionId;
     private Long workoutExerciseId;
     private int setNumber;
-    private double weight;
+    private BigDecimal weight;
     private int reps;
 
     public TrainingSet() {}
 
-    public TrainingSet(Long id, Long sessionId, Long workoutExerciseId, int setNumber, double weight, int reps) {
+    public TrainingSet(Long id, Long sessionId, Long workoutExerciseId, int setNumber, BigDecimal weight, int reps) {
         this.id = id;
         this.sessionId = sessionId;
         this.workoutExerciseId = workoutExerciseId;
@@ -39,8 +41,8 @@ public class TrainingSet {
     public int getSetNumber() { return setNumber; }
     public void setSetNumber(int setNumber) { this.setNumber = setNumber; }
 
-    public double getWeight() { return weight; }
-    public void setWeight(double weight) { this.weight = weight; }
+    public BigDecimal getWeight() { return weight; }
+    public void setWeight(BigDecimal weight) { this.weight = weight; }
 
     public int getReps() { return reps; }
     public void setReps(int reps) { this.reps = reps; }

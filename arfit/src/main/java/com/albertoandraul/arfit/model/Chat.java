@@ -1,7 +1,6 @@
 package com.albertoandraul.arfit.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "chat")
@@ -11,16 +10,37 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user1_id")
-    private User user1;
+    @Column (name = "user1_id")
+    private Long user1Id; // FK → User
+    @Column (name = "user2_id")
+    private Long user2Id; // FK → User
 
-    @ManyToOne
-    @JoinColumn(name = "user2_id")
-    private User user2;
+    public Chat() {
+    }
 
-    @OneToMany(mappedBy = "chat")
-    private List<Message> messages;
+    public Chat(Long id, Long user1Id, Long user2Id) {
+        this.id = id;
+        this.user1Id = user1Id;
+        this.user2Id = user2Id;
+    }
 
-    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public Long getUser1Id() {
+        return user1Id;
+    }
+
+    public void setUser1Id(Long user1Id) {
+        this.user1Id = user1Id;
+    }
+
+    public Long getUser2Id() {
+        return user2Id;
+    }
+
+    public void setUser2Id(Long user2Id) {
+        this.user2Id = user2Id;
+    }
 }

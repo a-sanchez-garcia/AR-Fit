@@ -1,7 +1,6 @@
 package com.albertoandraul.arfit.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "exercise")
@@ -11,24 +10,55 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+    private String name;          // Nombre del ejercicio
+    private String description;   // Descripción
+    private String muscleGroup;   // Grupo muscular
+    private String equipment;     // Equipo necesario
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    public Exercise() {
+    }
 
-    @Column(length = 50)
-    private String muscleGroup;
+    public Exercise(Long id, String name, String description, String muscleGroup, String equipment) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.muscleGroup = muscleGroup;
+        this.equipment = equipment;
+    }
 
-    @Column(length = 100)
-    private String equipment;
+    public Long getId() {
+        return id;
+    }
 
-    // Relaciones
-    @OneToMany(mappedBy = "exercise")
-    private List<Record> records;
+    public String getName() {
+        return name;
+    }
 
-    @OneToMany(mappedBy = "exercise")
-    private List<WorkoutExercise> workoutExercises;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    // Getters y Setters
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMuscleGroup() {
+        return muscleGroup;
+    }
+
+    public void setMuscleGroup(String muscleGroup) {
+        this.muscleGroup = muscleGroup;
+    }
+
+    public String getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
+    }
 }

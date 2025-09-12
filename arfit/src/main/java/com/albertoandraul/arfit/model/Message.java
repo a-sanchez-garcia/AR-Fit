@@ -1,7 +1,7 @@
 package com.albertoandraul.arfit.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "message")
@@ -11,19 +11,66 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    private Long chatId;   // FK → Chat
+    private Long senderId; // FK → User
+
     private String content;
+    private Date createdAt;
+    private boolean seen;
 
-    private LocalDateTime createdAt;
-    private Boolean seen;
+    public Message() {
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
+    public Message(Long id, Long chatId, Long senderId, String content, Date createdAt, boolean seen) {
+        this.id = id;
+        this.chatId = chatId;
+        this.senderId = senderId;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.seen = seen;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    public Long getId() {
+        return id;
+    }
 
-    // Getters y Setters
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
+    public Long getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
 }

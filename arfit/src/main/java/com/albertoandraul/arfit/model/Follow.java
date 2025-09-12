@@ -14,6 +14,7 @@ public class Follow {
     private Long followerId;
     private Long followedId;
 
+    @Column (name = "created_at")
     private LocalDateTime createdAt;
 
     public Follow() {}

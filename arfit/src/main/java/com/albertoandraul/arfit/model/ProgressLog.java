@@ -1,10 +1,12 @@
 package com.albertoandraul.arfit.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "progresslog")
+@Table(name = "progress_log")
 public class ProgressLog {
 
     @Id
@@ -14,13 +16,13 @@ public class ProgressLog {
     private Long userId;
     private Long exerciseId;
     private LocalDate date;
-    private Double weight;
+    private BigDecimal  weight;
     private Integer reps;
     private Integer sets;
 
     public ProgressLog() {}
 
-    public ProgressLog(Long id, Long userId, Long exerciseId, LocalDate date, Double weight, Integer reps, Integer sets) {
+    public ProgressLog(Long id, Long userId, Long exerciseId, LocalDate date, BigDecimal weight, Integer reps, Integer sets) {
         this.id = id;
         this.userId = userId;
         this.exerciseId = exerciseId;
@@ -42,8 +44,8 @@ public class ProgressLog {
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
 
-    public Double getWeight() { return weight; }
-    public void setWeight(Double weight) { this.weight = weight; }
+    public BigDecimal  getWeight() { return weight; }
+    public void setWeight(BigDecimal weight) { this.weight = weight; }
 
     public Integer getReps() { return reps; }
     public void setReps(Integer reps) { this.reps = reps; }
