@@ -1,11 +1,14 @@
 package com.albertoandraul.arfit.controller;
 
+import com.albertoandraul.arfit.dto.UserDto;
 import com.albertoandraul.arfit.model.User;
 import com.albertoandraul.arfit.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import com.albertoandraul.arfit.repository.FollowRepository;
 
 import java.util.List;
 
@@ -71,4 +74,17 @@ public class UserController {
         userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/me")
+    public UserDto.UserResponseDto getCurrentUser(Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return new UserDto.UserResponseDto(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail()
+        );
+    }
+
 }
