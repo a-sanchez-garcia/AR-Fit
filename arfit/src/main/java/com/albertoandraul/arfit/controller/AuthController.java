@@ -35,4 +35,7 @@ public class AuthController {
         );
         return jwtUtil.generateToken(authentication.getName());
     }
+
+
+
 }
