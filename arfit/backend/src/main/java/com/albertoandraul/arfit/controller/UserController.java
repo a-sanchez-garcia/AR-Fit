@@ -1,14 +1,11 @@
 package com.albertoandraul.arfit.controller;
 
 import com.albertoandraul.arfit.dto.UserDto;
-import com.albertoandraul.arfit.model.User;
-import com.albertoandraul.arfit.repository.UserRepository;
+import com.albertoandraul.arfit.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import com.albertoandraul.arfit.repository.FollowRepository;
 
 import java.util.List;
 
@@ -16,75 +13,51 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    // 🔹 Obtener todos los usuarios
+    // 🔹 Obtener todos los usuarios (solo datos públicos)
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+    public ResponseEntity<List<UserDto.UserResponseDto>> getUsers() {
+        List<UserDto.UserResponseDto> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     // 🔹 Obtener un usuario por username
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUser(@PathVariable String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No se ha encontrado el usuario: " + username));
-        return ResponseEntity.ok(user);
-    }
-
-    // 🔹 Actualizar un usuario completo (PUT)
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
-        if (!userRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se ha encontrado el usuario: " + id);
-        }
-        user.setId(id); // aseguramos que actualiza el usuario correcto
-        userRepository.save(user);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<UserDto.UserResponseDto> getUser(@PathVariable String username) {
+        return userService.findByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // 🔹 Actualizar parcialmente un usuario (PATCH)
     @PatchMapping("/{id}")
-    public ResponseEntity<?> patchUser(@PathVariable Long id, @RequestBody User user) {
-        return userRepository.findById(id)
-                .map(existingUser -> {
-                    if (user.getUsername() != null) existingUser.setUsername(user.getUsername());
-                    if (user.getPassword() != null) existingUser.setPassword(user.getPassword());
-                    if (user.getEmail() != null) existingUser.setEmail(user.getEmail());
-                    userRepository.save(existingUser);
-                    return ResponseEntity.ok("Usuario modificado correctamente: " + existingUser.getUsername());
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No se ha encontrado el usuario: " + id));
+    public ResponseEntity<UserDto.UserResponseDto> patchUser(
+            @PathVariable Long id,
+            @RequestBody UserDto.UpdateUserRequestDto request) {
+
+        return userService.updateUserPartial(id, request)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // 🔹 Eliminar un usuario por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        if (!userRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se ha encontrado el usuario: " + id);
-        }
-        userRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        boolean deleted = userService.deleteUser(id);
+        return deleted ? ResponseEntity.noContent().build() :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    // 🔹 Obtener info del usuario autenticado
     @GetMapping("/me")
-    public UserDto.UserResponseDto getCurrentUser(Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        return new UserDto.UserResponseDto(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail()
-        );
+    public ResponseEntity<UserDto.UserResponseDto> getCurrentUser(Authentication authentication) {
+        return userService.findByUsername(authentication.getName())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
-
 }
