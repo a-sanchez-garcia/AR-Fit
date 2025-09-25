@@ -1,83 +1,54 @@
 package com.albertoandraul.arfit.controller;
 
+import com.albertoandraul.arfit.dto.ProgressLogDTO;
 import com.albertoandraul.arfit.dto.ProgressLogRequestDTO;
-import com.albertoandraul.arfit.model.ProgressLog;
-import com.albertoandraul.arfit.model.User;
-import com.albertoandraul.arfit.repository.ProgressLogRepository;
-import com.albertoandraul.arfit.repository.UserRepository;
-import com.albertoandraul.arfit.repository.ExerciseRepository;
+import com.albertoandraul.arfit.service.ProgressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/progress")
 public class ProgressController {
 
-    private final ProgressLogRepository progressLogRepository;
-    private final UserRepository userRepository;
-    private final ExerciseRepository exerciseRepository;
+    private final ProgressService progressService;
 
-    public ProgressController(ProgressLogRepository progressLogRepository,
-                              UserRepository userRepository,
-                              ExerciseRepository exerciseRepository) {
-        this.progressLogRepository = progressLogRepository;
-        this.userRepository = userRepository;
-        this.exerciseRepository = exerciseRepository;
+    public ProgressController(ProgressService progressService) {
+        this.progressService = progressService;
     }
 
-    // 🔹 AÑADIR registro de progreso (usa fecha actual)
+    // Crear un nuevo registro de progreso usando JSON
     @PostMapping
-    public ResponseEntity<ProgressLog> addProgressLog(@RequestBody ProgressLogRequestDTO request,
-                                                      Authentication authentication) {
-        // 1️⃣ Obtener el usuario autenticado una sola vez
-        User user = userRepository.findByUsername(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+    public ResponseEntity<ProgressLogDTO> addProgress(
+            @RequestBody ProgressLogRequestDTO request,
+            Authentication auth) {
 
-        // 2️⃣ Verificar que el ejercicio existe
-        exerciseRepository.findById(request.exerciseId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ejercicio no encontrado"));
+        ProgressLogDTO created = progressService.addProgress(
+                auth.getName(),
+                request.exerciseId(),
+                request.weight(),
+                request.reps(),
+                request.sets()
+        );
 
-        // 3️⃣ Crear log de progreso
-        ProgressLog progressLog = new ProgressLog();
-        progressLog.setUserId(user.getId());
-        progressLog.setExerciseId(request.exerciseId());
-        progressLog.setDate(LocalDate.now()); // ✅ usar fecha actual
-        progressLog.setWeight(BigDecimal.valueOf(request.weight()));
-        progressLog.setReps(request.reps());
-        progressLog.setSets(request.sets());
-
-        ProgressLog savedLog = progressLogRepository.save(progressLog);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedLog);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // 🔹 LISTAR historial de progreso
+    // Historial completo del usuario
     @GetMapping
-    public ResponseEntity<List<ProgressLog>> getProgressHistory(Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-
-        List<ProgressLog> progressLogs = progressLogRepository.findByUserIdOrderByDateDesc(user.getId());
-        return ResponseEntity.ok(progressLogs);
+    public ResponseEntity<List<ProgressLogDTO>> getHistory(Authentication auth) {
+        return ResponseEntity.ok(progressService.getHistory(auth.getName()));
     }
 
-    // 🔹 OBTENER progreso por ejercicio
+    // Historial filtrado por ejercicio
     @GetMapping("/exercise/{exerciseId}")
-    public ResponseEntity<List<ProgressLog>> getProgressByExercise(@PathVariable Long exerciseId, Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+    public ResponseEntity<List<ProgressLogDTO>> getByExercise(
+            @PathVariable Long exerciseId,
+            Authentication auth) {
 
-        // Verificar que el ejercicio existe
-        exerciseRepository.findById(exerciseId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ejercicio no encontrado"));
-
-        List<ProgressLog> progressLogs = progressLogRepository.findByUserIdAndExerciseIdOrderByDateDesc(user.getId(), exerciseId);
-        return ResponseEntity.ok(progressLogs);
+        return ResponseEntity.ok(progressService.getByExercise(auth.getName(), exerciseId));
     }
 }

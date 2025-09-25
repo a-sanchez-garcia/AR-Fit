@@ -2,6 +2,8 @@ package com.albertoandraul.arfit.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "workout")
@@ -11,26 +13,34 @@ public class Workout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
     private String title;
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkoutExercise> exercises = new ArrayList<>();
+
     private LocalDateTime createdAt;
 
     public Workout() {}
 
-    public Workout(Long id, Long userId, String title, String description, LocalDateTime createdAt) {
+    public Workout(Long id, String title, String description, User user) {
         this.id = id;
-        this.userId = userId;
         this.title = title;
         this.description = description;
-        this.createdAt = createdAt;
+        this.user = user;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    // Getters y setters
+    public Long getId() { return id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -38,6 +48,23 @@ public class Workout {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public List<WorkoutExercise> getExercises() { return exercises; }
+    public void setExercises(List<WorkoutExercise> exercises) { this.exercises = exercises; }
+
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    // Helper para agregar ejercicios fácilmente
+    public void addExercise(WorkoutExercise exercise) {
+        exercises.add(exercise);
+        exercise.setWorkout(this);
+    }
+
+    public void removeExercise(WorkoutExercise exercise) {
+        exercises.remove(exercise);
+        exercise.setWorkout(null);
+    }
 }

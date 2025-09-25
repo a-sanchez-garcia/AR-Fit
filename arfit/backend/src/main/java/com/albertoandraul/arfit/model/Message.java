@@ -11,66 +11,43 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long chatId;   // FK → Chat
-    private Long senderId; // FK → User
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private Chat chat;   // relación con Chat
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender; // relación con User
 
     private String content;
     private Date createdAt;
     private boolean seen;
 
-    public Message() {
-    }
+    public Message() {}
 
-    public Message(Long id, Long chatId, Long senderId, String content, Date createdAt, boolean seen) {
+    public Message(Long id, Chat chat, User sender, String content, Date createdAt, boolean seen) {
         this.id = id;
-        this.chatId = chatId;
-        this.senderId = senderId;
+        this.chat = chat;
+        this.sender = sender;
         this.content = content;
         this.createdAt = createdAt;
         this.seen = seen;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public Long getChatId() {
-        return chatId;
-    }
+    public Chat getChat() { return chat; }
+    public void setChat(Chat chat) { this.chat = chat; }
 
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
+    public User getSender() { return sender; }
+    public void setSender(User sender) { this.sender = sender; }
 
-    public Long getSenderId() {
-        return senderId;
-    }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
-    }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public void setSeen(boolean seen) {
-        this.seen = seen;
-    }
+    public boolean isSeen() { return seen; }
+    public void setSeen(boolean seen) { this.seen = seen; }
 }

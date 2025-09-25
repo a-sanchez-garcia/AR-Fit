@@ -8,8 +8,7 @@ public class TrainingSetRequestDTO {
     private BigDecimal weight;
     private int reps;
 
-    public TrainingSetRequestDTO() {} // necesario para Jackson
-
+    // getters y setters
     public Long getWorkoutExerciseId() { return workoutExerciseId; }
     public void setWorkoutExerciseId(Long workoutExerciseId) { this.workoutExerciseId = workoutExerciseId; }
     public int getSetNumber() { return setNumber; }

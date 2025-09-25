@@ -10,37 +10,44 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "user1_id")
-    private Long user1Id; // FK → User
-    @Column (name = "user2_id")
-    private Long user2Id; // FK → User
+    @ManyToOne
+    @JoinColumn(name = "user1_id")
+    private User user1;
+
+    @ManyToOne
+    @JoinColumn(name = "user2_id")
+    private User user2;
 
     public Chat() {
     }
 
-    public Chat(Long id, Long user1Id, Long user2Id) {
+    public Chat(Long id, User user1, User user2) {
         this.id = id;
-        this.user1Id = user1Id;
-        this.user2Id = user2Id;
+        this.user1 = user1;
+        this.user2 = user2;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Long getUser1Id() {
-        return user1Id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUser1Id(Long user1Id) {
-        this.user1Id = user1Id;
+    public User getUser1() {
+        return user1;
     }
 
-    public Long getUser2Id() {
-        return user2Id;
+    public void setUser1(User user1) {
+        this.user1 = user1;
     }
 
-    public void setUser2Id(Long user2Id) {
-        this.user2Id = user2Id;
+    public User getUser2() {
+        return user2;
+    }
+
+    public void setUser2(User user2) {
+        this.user2 = user2;
     }
 }

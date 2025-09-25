@@ -12,38 +12,75 @@ public class TrainingSet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long sessionId;
-    private Long workoutExerciseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id", nullable = false)
+    private TrainingSession session;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workout_exercise_id", nullable = false)
+    private WorkoutExercise workoutExercise;
+
     private int setNumber;
     private BigDecimal weight;
     private int reps;
 
     public TrainingSet() {}
 
-    public TrainingSet(Long id, Long sessionId, Long workoutExerciseId, int setNumber, BigDecimal weight, int reps) {
+    public TrainingSet(Long id, TrainingSession session, WorkoutExercise workoutExercise, int setNumber, BigDecimal weight, int reps) {
         this.id = id;
-        this.sessionId = sessionId;
-        this.workoutExerciseId = workoutExerciseId;
+        this.session = session;
+        this.workoutExercise = workoutExercise;
         this.setNumber = setNumber;
         this.weight = weight;
         this.reps = reps;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getSessionId() { return sessionId; }
-    public void setSessionId(Long sessionId) { this.sessionId = sessionId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getWorkoutExerciseId() { return workoutExerciseId; }
-    public void setWorkoutExerciseId(Long workoutExerciseId) { this.workoutExerciseId = workoutExerciseId; }
+    public TrainingSession getSession() {
+        return session;
+    }
 
-    public int getSetNumber() { return setNumber; }
-    public void setSetNumber(int setNumber) { this.setNumber = setNumber; }
+    public void setSession(TrainingSession session) {
+        this.session = session;
+    }
 
-    public BigDecimal getWeight() { return weight; }
-    public void setWeight(BigDecimal weight) { this.weight = weight; }
+    public WorkoutExercise getWorkoutExercise() {
+        return workoutExercise;
+    }
 
-    public int getReps() { return reps; }
-    public void setReps(int reps) { this.reps = reps; }
+    public void setWorkoutExercise(WorkoutExercise workoutExercise) {
+        this.workoutExercise = workoutExercise;
+    }
+
+    public int getSetNumber() {
+        return setNumber;
+    }
+
+    public void setSetNumber(int setNumber) {
+        this.setNumber = setNumber;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
 }

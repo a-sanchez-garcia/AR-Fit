@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AR-Fit.iml" filepath="$PROJECT_DIR$/.idea/AR-Fit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arfit/arfit.iml" filepath="$PROJECT_DIR$/arfit/arfit.iml" />
     </modules>
   </component>
 </project>
