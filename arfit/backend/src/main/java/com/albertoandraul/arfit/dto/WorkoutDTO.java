@@ -2,10 +2,19 @@ package com.albertoandraul.arfit.dto;
 
 import java.util.List;
 
-public class WorkoutRequestDTO {
+public class WorkoutDTO {
+    private Long id;
     private String title;
     private String description;
-    private List<WorkoutExerciseRequestDTO> exercises;
+    private List<WorkoutExerciseDTO> exercises;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -23,11 +32,11 @@ public class WorkoutRequestDTO {
         this.description = description;
     }
 
-    public List<WorkoutExerciseRequestDTO> getExercises() {
+    public List<WorkoutExerciseDTO> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<WorkoutExerciseRequestDTO> exercises) {
+    public void setExercises(List<WorkoutExerciseDTO> exercises) {
         this.exercises = exercises;
     }
 }

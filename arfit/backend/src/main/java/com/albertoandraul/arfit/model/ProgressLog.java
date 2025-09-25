@@ -13,8 +13,13 @@ public class ProgressLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-    private Long exerciseId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
     private LocalDate date;
     private BigDecimal  weight;
     private Integer reps;
@@ -22,34 +27,69 @@ public class ProgressLog {
 
     public ProgressLog() {}
 
-    public ProgressLog(Long id, Long userId, Long exerciseId, LocalDate date, BigDecimal weight, Integer reps, Integer sets) {
+    public ProgressLog(Long id, User user, Exercise exercise, LocalDate date, BigDecimal weight, Integer reps, Integer sets) {
         this.id = id;
-        this.userId = userId;
-        this.exerciseId = exerciseId;
+        this.user = user;
+        this.exercise = exercise;
         this.date = date;
         this.weight = weight;
         this.reps = reps;
         this.sets = sets;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getExerciseId() { return exerciseId; }
-    public void setExerciseId(Long exerciseId) { this.exerciseId = exerciseId; }
+    public User getUser() {
+        return user;
+    }
 
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public BigDecimal  getWeight() { return weight; }
-    public void setWeight(BigDecimal weight) { this.weight = weight; }
+    public Exercise getExercise() {
+        return exercise;
+    }
 
-    public Integer getReps() { return reps; }
-    public void setReps(Integer reps) { this.reps = reps; }
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
+    }
 
-    public Integer getSets() { return sets; }
-    public void setSets(Integer sets) { this.sets = sets; }
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    public Integer getReps() {
+        return reps;
+    }
+
+    public void setReps(Integer reps) {
+        this.reps = reps;
+    }
+
+    public Integer getSets() {
+        return sets;
+    }
+
+    public void setSets(Integer sets) {
+        this.sets = sets;
+    }
 }

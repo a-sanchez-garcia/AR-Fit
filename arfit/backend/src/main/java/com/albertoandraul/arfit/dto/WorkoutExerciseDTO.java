@@ -1,9 +1,18 @@
 package com.albertoandraul.arfit.dto;
 
-public class WorkoutExerciseRequestDTO {
+public class WorkoutExerciseDTO {
+    private Long id;
     private Long exerciseId;
     private int orderNumber;
     private int plannedSets;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getExerciseId() {
         return exerciseId;

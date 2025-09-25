@@ -13,8 +13,13 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;     // FK → User
-    private Long exerciseId; // FK → Exercise
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
 
     private BigDecimal weight;
     private int reps;
@@ -23,10 +28,10 @@ public class Record {
     public Record() {
     }
 
-    public Record(Long id, Long userId, Long exerciseId, BigDecimal weight, int reps, LocalDate date) {
+    public Record(Long id, User user, Exercise exercise, BigDecimal weight, int reps, LocalDate date) {
         this.id = id;
-        this.userId = userId;
-        this.exerciseId = exerciseId;
+        this.user = user;
+        this.exercise = exercise;
         this.weight = weight;
         this.reps = reps;
         this.date = date;
@@ -36,20 +41,24 @@ public class Record {
         return id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public User getUser() {
+        return user;
     }
 
-    public Long getExerciseId() {
-        return exerciseId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setExerciseId(Long exerciseId) {
-        this.exerciseId = exerciseId;
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
     public BigDecimal getWeight() {

@@ -13,24 +13,33 @@ public class Versus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "user1_id")
-    private Long user1Id;     // FK → User
-    @Column (name = "user2_id")
-    private Long user2Id;     // FK → User
-    private Long exerciseId;  // FK → Exercise
-    private Long winnerId;    // FK → User ganador
+    @ManyToOne
+    @JoinColumn(name = "user1_id")
+    private User user1;
+
+    @ManyToOne
+    @JoinColumn(name = "user2_id")
+    private User user2;
+
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
+
+    @ManyToOne
+    @JoinColumn(name = "winner_id")
+    private User winner;    // FK → User ganador
 
     private LocalDate date;
 
     public Versus() {
     }
 
-    public Versus(Long id, Long user1Id, Long user2Id, Long exerciseId, Long winnerId, LocalDate date) {
+    public Versus(Long id, User user1, User user2, Exercise exercise, User winner, LocalDate date) {
         this.id = id;
-        this.user1Id = user1Id;
-        this.user2Id = user2Id;
-        this.exerciseId = exerciseId;
-        this.winnerId = winnerId;
+        this.user1 = user1;
+        this.user2 = user2;
+        this.exercise = exercise;
+        this.winner = winner;
         this.date = date;
     }
 
@@ -38,36 +47,40 @@ public class Versus {
         return id;
     }
 
-    public Long getUser1Id() {
-        return user1Id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUser1Id(Long user1Id) {
-        this.user1Id = user1Id;
+    public User getUser1() {
+        return user1;
     }
 
-    public Long getUser2Id() {
-        return user2Id;
+    public void setUser1(User user1) {
+        this.user1 = user1;
     }
 
-    public void setUser2Id(Long user2Id) {
-        this.user2Id = user2Id;
+    public User getUser2() {
+        return user2;
     }
 
-    public Long getExerciseId() {
-        return exerciseId;
+    public void setUser2(User user2) {
+        this.user2 = user2;
     }
 
-    public void setExerciseId(Long exerciseId) {
-        this.exerciseId = exerciseId;
+    public Exercise getExercise() {
+        return exercise;
     }
 
-    public Long getWinnerId() {
-        return winnerId;
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
-    public void setWinnerId(Long winnerId) {
-        this.winnerId = winnerId;
+    public User getWinner() {
+        return winner;
+    }
+
+    public void setWinner(User winner) {
+        this.winner = winner;
     }
 
     public LocalDate getDate() {
