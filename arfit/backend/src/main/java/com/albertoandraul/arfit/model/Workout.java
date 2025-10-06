@@ -21,7 +21,7 @@ public class Workout {
     private User user;
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkoutExercise> exercises = new ArrayList<>();
+    private List<WorkoutExternalExercise> exercises = new ArrayList<>();
 
     private LocalDateTime createdAt;
 
@@ -51,19 +51,20 @@ public class Workout {
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
-    public List<WorkoutExercise> getExercises() { return exercises; }
-    public void setExercises(List<WorkoutExercise> exercises) { this.exercises = exercises; }
+    public List<WorkoutExternalExercise> getExercises() { return exercises; }
+    public void setExercises(List<WorkoutExternalExercise> exercises) { this.exercises = exercises; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    // Helper para agregar ejercicios fácilmente
-    public void addExercise(WorkoutExercise exercise) {
+    // Helper para agregar un WorkoutExternalExercise
+    public void addExercise(WorkoutExternalExercise exercise) {
         exercises.add(exercise);
         exercise.setWorkout(this);
     }
 
-    public void removeExercise(WorkoutExercise exercise) {
+    // Helper para eliminar
+    public void removeExercise(WorkoutExternalExercise exercise) {
         exercises.remove(exercise);
         exercise.setWorkout(null);
     }

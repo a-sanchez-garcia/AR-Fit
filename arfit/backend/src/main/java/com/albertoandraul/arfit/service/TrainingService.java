@@ -3,10 +3,7 @@ package com.albertoandraul.arfit.service;
 import com.albertoandraul.arfit.dto.TrainingSessionDTO;
 import com.albertoandraul.arfit.dto.TrainingSetDTO;
 import com.albertoandraul.arfit.dto.TrainingSetRequestDTO;
-import com.albertoandraul.arfit.model.TrainingSession;
-import com.albertoandraul.arfit.model.TrainingSet;
-import com.albertoandraul.arfit.model.User;
-import com.albertoandraul.arfit.model.WorkoutExercise;
+import com.albertoandraul.arfit.model.*;
 import com.albertoandraul.arfit.repository.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,13 +19,13 @@ public class TrainingService {
     private final TrainingSetRepository setRepo;
     private final WorkoutRepository workoutRepo;
     private final UserRepository userRepo;
-    private final WorkoutExerciseRepository workoutExerciseRepo;
+    private final WorkoutExternalExerciseRepository workoutExerciseRepo;
 
     public TrainingService(TrainingSessionRepository sessionRepo,
                            TrainingSetRepository setRepo,
                            WorkoutRepository workoutRepo,
                            UserRepository userRepo,
-                           WorkoutExerciseRepository workoutExerciseRepo) {
+                           WorkoutExternalExerciseRepository workoutExerciseRepo) {
         this.sessionRepo = sessionRepo;
         this.setRepo = setRepo;
         this.workoutRepo = workoutRepo;
@@ -38,6 +35,7 @@ public class TrainingService {
 
     // 🔹 Crear nueva sesión
     public TrainingSessionDTO createSession(String username, Long workoutId) {
+
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
@@ -76,7 +74,7 @@ public class TrainingService {
         if (!session.getUserId().equals(user.getId()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes acceso a esta sesión");
 
-        WorkoutExercise we = workoutExerciseRepo.findById(dto.getWorkoutExerciseId())
+        WorkoutExternalExercise we = workoutExerciseRepo.findById(dto.getWorkoutExerciseId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ejercicio no encontrado"));
 
         TrainingSet set = new TrainingSet();

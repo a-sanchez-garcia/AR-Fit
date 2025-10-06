@@ -19,7 +19,7 @@ public class ProgressLog {
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
-    private Exercise exercise;
+    private ExternalExercise exercise;
     private LocalDate date;
     private BigDecimal  weight;
     private Integer reps;
@@ -27,7 +27,7 @@ public class ProgressLog {
 
     public ProgressLog() {}
 
-    public ProgressLog(Long id, User user, Exercise exercise, LocalDate date, BigDecimal weight, Integer reps, Integer sets) {
+    public ProgressLog(Long id, User user, ExternalExercise exercise, LocalDate date, BigDecimal weight, Integer reps, Integer sets) {
         this.id = id;
         this.user = user;
         this.exercise = exercise;
@@ -53,11 +53,11 @@ public class ProgressLog {
         this.user = user;
     }
 
-    public Exercise getExercise() {
+    public ExternalExercise getExercise() {
         return exercise;
     }
 
-    public void setExercise(Exercise exercise) {
+    public void setExercise(ExternalExercise exercise) {
         this.exercise = exercise;
     }
 
@@ -91,5 +91,8 @@ public class ProgressLog {
 
     public void setSets(Integer sets) {
         this.sets = sets;
+    }
+
+    public void setExerciseId(Long exerciseId) {
     }
 }

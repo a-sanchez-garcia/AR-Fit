@@ -18,7 +18,7 @@ public class TrainingSet {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_exercise_id", nullable = false)
-    private WorkoutExercise workoutExercise;
+    private WorkoutExternalExercise workoutExercise;
 
     private int setNumber;
     private BigDecimal weight;
@@ -26,7 +26,7 @@ public class TrainingSet {
 
     public TrainingSet() {}
 
-    public TrainingSet(Long id, TrainingSession session, WorkoutExercise workoutExercise, int setNumber, BigDecimal weight, int reps) {
+    public TrainingSet(Long id, TrainingSession session, WorkoutExternalExercise workoutExercise, int setNumber, BigDecimal weight, int reps) {
         this.id = id;
         this.session = session;
         this.workoutExercise = workoutExercise;
@@ -51,11 +51,11 @@ public class TrainingSet {
         this.session = session;
     }
 
-    public WorkoutExercise getWorkoutExercise() {
+    public WorkoutExternalExercise getWorkoutExercise() {
         return workoutExercise;
     }
 
-    public void setWorkoutExercise(WorkoutExercise workoutExercise) {
+    public void setWorkoutExercise(WorkoutExternalExercise workoutExercise) {
         this.workoutExercise = workoutExercise;
     }
 
