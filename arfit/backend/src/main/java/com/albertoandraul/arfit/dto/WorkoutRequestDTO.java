@@ -5,7 +5,7 @@ import java.util.List;
 public class WorkoutRequestDTO {
     private String title;
     private String description;
-    private List<WorkoutExerciseRequestDTO> exercises;
+    private List<WorkoutExternalExerciseDTO> exercises;
 
     public String getTitle() {
         return title;
@@ -23,11 +23,11 @@ public class WorkoutRequestDTO {
         this.description = description;
     }
 
-    public List<WorkoutExerciseRequestDTO> getExercises() {
+    public List<WorkoutExternalExerciseDTO> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<WorkoutExerciseRequestDTO> exercises) {
+    public void setExercises(List<WorkoutExternalExerciseDTO> exercises) {
         this.exercises = exercises;
     }
 }

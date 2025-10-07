@@ -1,0 +1,85 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f7f9;
+  padding: 16px;
+}
+
+.auth-form-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.auth-form-card h2 {
+  margin-bottom: 24px;
+  text-align: center;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  margin-bottom: 4px;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #1976d2; /* azul vivo tipo Hevy */
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:disabled {
+  background-color: #a0c4e3;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #145a9e;
+}
+
+.redirect {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.redirect a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.redirect a:hover {
+  text-decoration: underline;
+}

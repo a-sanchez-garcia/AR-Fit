@@ -2,10 +2,11 @@ package com.albertoandraul.arfit.repository;
 
 import com.albertoandraul.arfit.model.ProgressLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ProgressLogRepository extends JpaRepository<ProgressLog, Long> {
-    List<ProgressLog> findByUser_IdOrderByDateDesc(Long userId);
-    List<ProgressLog> findByUser_IdAndExercise_IdOrderByDateDesc(Long userId, Long exerciseId);
+    List<ProgressLog> findByUserId(Long userId);
 }

@@ -1,0 +1,77 @@
+<div class="rutinas-wrapper">
+
+  <!-- Izquierda: Crear nueva rutina -->
+  <div class="create-rutina-container">
+    <button class="toggle-btn" (click)="toggleCreateForm()">
+      {{ showCreateForm ? '❌ Cancelar' : '➕ Crear nueva rutina' }}
+    </button>
+
+    <section *ngIf="showCreateForm" class="rutina-form">
+      <h2>Nueva Rutina</h2>
+      <form [formGroup]="rutinaForm" (ngSubmit)="submitForm()">
+        <label>Título:
+          <input formControlName="title" placeholder="Ej. Rutina de pecho">
+        </label>
+        <label>Descripción:
+          <textarea formControlName="description" placeholder="Opcional"></textarea>
+        </label>
+
+        <div formArrayName="exercises" class="exercises-container">
+          <div *ngFor="let ex of exercises.controls; let i = index" [formGroupName]="i" class="exercise-group">
+            <label>Ejercicio:</label>
+            <select formControlName="externalExerciseId">
+              <option value="">Selecciona un ejercicio</option>
+              <option *ngFor="let e of exercisesList" [value]="e.id">{{ e.name }} (ID: {{ e.id }})</option>
+            </select>
+
+            <label>Sets:</label>
+            <input formControlName="plannedSets" type="number" min="1">
+
+            <label>Orden:</label>
+            <input formControlName="orderNumber" type="number" min="1">
+
+            <button type="button" (click)="removeExercise(i)">❌ Eliminar</button>
+          </div>
+        </div>
+
+        <button type="button" (click)="addExercise()">+ Añadir ejercicio</button>
+        <button type="submit" [disabled]="loading">💾 Guardar Rutina</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- Derecha: Rutinas existentes -->
+  <div class="existing-rutinas-container">
+    <h2>Mis Rutinas</h2>
+    <div *ngIf="workouts.length === 0">No tienes rutinas aún.</div>
+
+    <div *ngFor="let w of workouts" class="rutina-card">
+      <h3>{{ w.title }}</h3>
+      <p>{{ w.description }}</p>
+
+      <!-- Botón de configuración -->
+      <button class="modify-btn" (click)="w.showAddExercise = !w.showAddExercise">
+        ⚙️ Modificar rutina
+      </button>
+
+      <div *ngIf="w.showAddExercise" class="add-exercise-inline">
+        <select [(ngModel)]="newExercise.externalExerciseId">
+          <option value="">Selecciona un ejercicio</option>
+          <option *ngFor="let e of exercisesList" [value]="e.id">{{ e.name }} (ID: {{ e.id }})</option>
+        </select>
+        <input [(ngModel)]="newExercise.plannedSets" type="number" min="1" placeholder="Sets">
+        <input [(ngModel)]="newExercise.orderNumber" type="number" min="1" placeholder="Orden">
+        <button (click)="addExerciseToRoutine(w.id)">➕ Añadir ejercicio</button>
+        <button (click)="deleteWorkout(w.id)">🗑️ Eliminar rutina</button>
+      </div>
+
+      <!-- Lista de ejercicios de la rutina -->
+      <ul *ngIf="w.exercises?.length">
+        <li *ngFor="let ex of w.exercises">
+          ID: {{ ex.externalExerciseId }} | Sets: {{ ex.plannedSets }} | Orden: {{ ex.orderNumber }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>

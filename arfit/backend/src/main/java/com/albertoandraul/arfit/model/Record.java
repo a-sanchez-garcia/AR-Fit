@@ -19,7 +19,7 @@ public class Record {
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
-    private Exercise exercise;
+    private ExternalExercise exercise;
 
     private BigDecimal weight;
     private int reps;
@@ -28,7 +28,7 @@ public class Record {
     public Record() {
     }
 
-    public Record(Long id, User user, Exercise exercise, BigDecimal weight, int reps, LocalDate date) {
+    public Record(Long id, User user, ExternalExercise exercise, BigDecimal weight, int reps, LocalDate date) {
         this.id = id;
         this.user = user;
         this.exercise = exercise;
@@ -53,11 +53,11 @@ public class Record {
         this.user = user;
     }
 
-    public Exercise getExercise() {
+    public ExternalExercise getExercise() {
         return exercise;
     }
 
-    public void setExercise(Exercise exercise) {
+    public void setExercise(ExternalExercise exercise) {
         this.exercise = exercise;
     }
 

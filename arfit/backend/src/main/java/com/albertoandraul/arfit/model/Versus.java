@@ -23,7 +23,7 @@ public class Versus {
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
-    private Exercise exercise;
+    private ExternalExercise exercise;
 
     @ManyToOne
     @JoinColumn(name = "winner_id")
@@ -34,7 +34,7 @@ public class Versus {
     public Versus() {
     }
 
-    public Versus(Long id, User user1, User user2, Exercise exercise, User winner, LocalDate date) {
+    public Versus(Long id, User user1, User user2, ExternalExercise exercise, User winner, LocalDate date) {
         this.id = id;
         this.user1 = user1;
         this.user2 = user2;
@@ -67,11 +67,11 @@ public class Versus {
         this.user2 = user2;
     }
 
-    public Exercise getExercise() {
+    public ExternalExercise getExercise() {
         return exercise;
     }
 
-    public void setExercise(Exercise exercise) {
+    public void setExercise(ExternalExercise exercise) {
         this.exercise = exercise;
     }
 

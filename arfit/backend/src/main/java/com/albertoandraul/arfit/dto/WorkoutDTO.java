@@ -6,7 +6,7 @@ public class WorkoutDTO {
     private Long id;
     private String title;
     private String description;
-    private List<WorkoutExerciseDTO> exercises;
+    private List<WorkoutExternalExerciseDTO> exercises; // Ahora incluimos ejercicios
 
     public Long getId() {
         return id;
@@ -32,11 +32,11 @@ public class WorkoutDTO {
         this.description = description;
     }
 
-    public List<WorkoutExerciseDTO> getExercises() {
+    public List<WorkoutExternalExerciseDTO> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<WorkoutExerciseDTO> exercises) {
+    public void setExercises(List<WorkoutExternalExerciseDTO> exercises) {
         this.exercises = exercises;
     }
 }
