@@ -1,0 +1,23 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <h2>MiFit</h2>
+    </div>
+    <nav>
+      <ul>
+        <li><a routerLink="feed" routerLinkActive="active">Feed</a></li>
+        <li><a routerLink="rutinas" routerLinkActive="active">Rutinas</a></li>
+        <li><a routerLink="entrenamiento" routerLinkActive="active">Entrenamiento</a></li>
+        <li><a routerLink="perfil" routerLinkActive="active">Perfil</a></li>
+        <li><a routerLink="ajustes" routerLinkActive="active">Ajustes</a></li>
+      </ul>
+    </nav>
+    <button class="logout" (click)="logout()">Cerrar sesión</button>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

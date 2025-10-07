@@ -1,0 +1,33 @@
+<div class="feed-container">
+
+  <!-- Crear nuevo post -->
+  <div class="create-post">
+    <textarea [(ngModel)]="newPostContent" placeholder="¿Qué estás pensando?"></textarea>
+    <button (click)="createPost()" [disabled]="!newPostContent.trim()">Publicar</button>
+  </div>
+
+  <!-- Feed de posts -->
+  <div *ngIf="loading">Cargando posts...</div>
+  <div *ngFor="let post of posts" class="post-card">
+    <div class="post-header">
+      <span class="username">{{ post.username }}</span>
+      <span class="created-at">{{ post.createdAt | date:'short' }}</span>
+    </div>
+    <div class="post-content">{{ post.content }}</div>
+
+    <div *ngIf="post.image"><img [src]="post.image" alt="Imagen del post"></div>
+    <div *ngIf="post.video"><video [src]="post.video" controls></video></div>
+
+    <div class="post-footer">
+      <span>❤️ {{ post.likesCount }}</span>
+      <span>💬 {{ post.commentsCount }}</span>
+      <button (click)="deletePost(post.id)">🗑️ Eliminar</button>
+    </div>
+
+    <ul class="comments-list" *ngIf="post.comments?.length">
+      <li *ngFor="let c of post.comments">
+        <b>{{ c.username }}:</b> {{ c.content }}
+      </li>
+    </ul>
+  </div>
+</div>
